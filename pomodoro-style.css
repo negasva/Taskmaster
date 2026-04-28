@@ -1,24 +1,29 @@
-/* ============================================================
-   POMODORO POPUP WINDOW STYLES
-   ============================================================ */
+/* POMODORO POPUP WINDOW STYLES */
 :root {
-    --bg:      #F7F8FA;
-    --card:    #FFFFFF;
-    --border:  #E4E7EC;
-    --text:    #101828;
-    --text-2:  #344054;
-    --text-3:  #667085;
-    --text-4:  #98A2B3;
-    --accent:  #2563EB;
-    --accent-dk:#1D4ED8;
-    --green:   #12B76A;
-    --orange:  #F79009;
-    --red:     #F04438;
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --border: #E4E7EC;
+    --text: #101828;
+    --text-2: #344054;
+    --text-3: #667085;
+    --text-4: #98A2B3;
+    --accent: #2563EB;
+    --accent-dk: #1D4ED8;
+    --green: #12B76A;
+    --orange: #F79009;
+    --red: #F04438;
 }
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
     height: 100%;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 14px;
@@ -65,7 +70,9 @@ html, body {
     transition: color .15s;
 }
 
-.pom-x:hover { color: var(--text); }
+.pom-x:hover {
+    color: var(--text);
+}
 
 /* Mode badge */
 .pom-mode {
@@ -123,8 +130,13 @@ html, body {
     transition: background .4s;
 }
 
-.pom-dot.done  { background: var(--accent); }
-.pom-dot.break { background: var(--green); }
+.pom-dot.done {
+    background: var(--accent);
+}
+
+.pom-dot.break {
+    background: var(--green);
+}
 
 /* Timer ring */
 .pom-ring-wrap {
@@ -156,9 +168,17 @@ html, body {
     transition: stroke-dashoffset 1s linear, stroke .4s;
 }
 
-.ring-fg.warning   { stroke: var(--orange); }
-.ring-fg.danger    { stroke: var(--red); }
-.ring-fg.break-mode { stroke: var(--green); }
+.ring-fg.warning {
+    stroke: var(--orange);
+}
+
+.ring-fg.danger {
+    stroke: var(--red);
+}
+
+.ring-fg.break-mode {
+    stroke: var(--green);
+}
 
 .pom-timer {
     position: absolute;
@@ -194,9 +214,17 @@ html, body {
     min-width: 116px;
 }
 
-.pom-main:hover  { background: var(--accent-dk); }
-.pom-main:active { transform: scale(.97); }
-.pom-main.paused { background: var(--orange); }
+.pom-main:hover {
+    background: var(--accent-dk);
+}
+
+.pom-main:active {
+    transform: scale(.97);
+}
+
+.pom-main.paused {
+    background: var(--orange);
+}
 
 .pom-ghost {
     padding: 11px 14px;
@@ -210,7 +238,10 @@ html, body {
     transition: background .15s;
 }
 
-.pom-ghost:hover { background: var(--border); color: var(--text); }
+.pom-ghost:hover {
+    background: var(--border);
+    color: var(--text);
+}
 
 /* Mini task list */
 .pom-list {

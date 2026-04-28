@@ -31,7 +31,7 @@ if (!gotTheLock) {
     });
 }
 
-// ===== Auto-start on boot =====
+// Auto-start on boot
 function setupAutoStart() {
     app.setLoginItemSettings({
         openAtLogin: true,
@@ -40,7 +40,7 @@ function setupAutoStart() {
     });
 }
 
-// ===== Allowed apps config =====
+// Allowed apps config
 const ALLOWED_APPS_FILE = () => path.join(app.getPath('userData'), 'allowed_apps.json');
 const BLOCKED_SITES_FILE = () => path.join(app.getPath('userData'), 'blocked_sites.json');
 
@@ -117,7 +117,7 @@ function saveBlockedSites(config) {
     } catch (e) { console.error('Error saving blocked sites:', e); }
 }
 
-// ===== API Server for Extension =====
+// API Server for Extension
 let apiServer = null;
 
 function startApiServer() {
@@ -178,7 +178,7 @@ function startApiServer() {
     });
 }
 
-// ===== Process monitoring =====
+// Process monitoring
 const { spawn } = require('child_process');
 let activeWindowProcess = '';
 let psMonitor = null;
