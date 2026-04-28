@@ -1,7 +1,15 @@
+<<<<<<< HEAD
+=======
+// ============================================================
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
 // TASKMASTER - Main renderer
 // Features: edit tasks, subtasks, priority, drag, streak,
 //           keyboard shortcuts, pomodoro count, Colombia time,
 //           system tray (via Electron IPC), 5PM report
+<<<<<<< HEAD
+=======
+// ============================================================
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
 
 // --- API bridge (Electron IPC or browser fallback) ----------
 const eAPI = window.electronAPI || {

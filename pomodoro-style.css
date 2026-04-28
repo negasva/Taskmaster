@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* POMODORO POPUP WINDOW STYLES */
 :root {
     --bg: #F7F8FA;
@@ -24,6 +25,29 @@
 
 html,
 body {
+=======
+/* ============================================================
+   POMODORO POPUP WINDOW STYLES
+   ============================================================ */
+:root {
+    --bg:      #F7F8FA;
+    --card:    #FFFFFF;
+    --border:  #E4E7EC;
+    --text:    #101828;
+    --text-2:  #344054;
+    --text-3:  #667085;
+    --text-4:  #98A2B3;
+    --accent:  #2563EB;
+    --accent-dk:#1D4ED8;
+    --green:   #12B76A;
+    --orange:  #F79009;
+    --red:     #F04438;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
     height: 100%;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 14px;
@@ -70,9 +94,13 @@ body {
     transition: color .15s;
 }
 
+<<<<<<< HEAD
 .pom-x:hover {
     color: var(--text);
 }
+=======
+.pom-x:hover { color: var(--text); }
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
 
 /* Mode badge */
 .pom-mode {
@@ -130,6 +158,7 @@ body {
     transition: background .4s;
 }
 
+<<<<<<< HEAD
 .pom-dot.done {
     background: var(--accent);
 }
@@ -137,6 +166,10 @@ body {
 .pom-dot.break {
     background: var(--green);
 }
+=======
+.pom-dot.done  { background: var(--accent); }
+.pom-dot.break { background: var(--green); }
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
 
 /* Timer ring */
 .pom-ring-wrap {
@@ -168,6 +201,7 @@ body {
     transition: stroke-dashoffset 1s linear, stroke .4s;
 }
 
+<<<<<<< HEAD
 .ring-fg.warning {
     stroke: var(--orange);
 }
@@ -179,6 +213,11 @@ body {
 .ring-fg.break-mode {
     stroke: var(--green);
 }
+=======
+.ring-fg.warning   { stroke: var(--orange); }
+.ring-fg.danger    { stroke: var(--red); }
+.ring-fg.break-mode { stroke: var(--green); }
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
 
 .pom-timer {
     position: absolute;
@@ -214,6 +253,7 @@ body {
     min-width: 116px;
 }
 
+<<<<<<< HEAD
 .pom-main:hover {
     background: var(--accent-dk);
 }
@@ -225,6 +265,11 @@ body {
 .pom-main.paused {
     background: var(--orange);
 }
+=======
+.pom-main:hover  { background: var(--accent-dk); }
+.pom-main:active { transform: scale(.97); }
+.pom-main.paused { background: var(--orange); }
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
 
 .pom-ghost {
     padding: 11px 14px;
@@ -238,10 +283,14 @@ body {
     transition: background .15s;
 }
 
+<<<<<<< HEAD
 .pom-ghost:hover {
     background: var(--border);
     color: var(--text);
 }
+=======
+.pom-ghost:hover { background: var(--border); color: var(--text); }
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
 
 /* Mini task list */
 .pom-list {
@@ -275,4 +324,8 @@ body {
     text-decoration: line-through;
     opacity: .45;
     border-left-color: var(--green);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> dde5178010be32f32d9d1d5667e63db386f9d774
