@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pomodoro-style.css">
+    <link rel="icon" type="image/png" href="logo-icono.png">
+</head>
+<body>
+<div class="pom-app" id="pom-app">
+
+    <!-- Drag + close -->
+    <div class="pom-titlebar">
+        <div class="pom-drag"></div>
+        <button class="pom-x" id="pom-close">&#215;</button>
+    </div>
+
+    <!-- Mode label -->
+    <div class="pom-mode" id="pom-mode">Focus</div>
+
+    <!-- Current task -->
+    <p class="pom-working">Working on</p>
+    <p class="pom-task-name" id="pom-task-name">-</p>
+
+    <!-- Session dots (filled = done) -->
+    <div class="pom-dots" id="pom-dots"></div>
+
+    <!-- Timer ring -->
+    <div class="pom-ring-wrap">
+        <svg class="pom-ring-svg" viewBox="0 0 200 200">
+            <circle class="ring-bg" cx="100" cy="100" r="88"/>
+            <circle class="ring-fg" id="pom-ring-fg" cx="100" cy="100" r="88"/>
+        </svg>
+        <div class="pom-timer" id="pom-timer">30:00</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="pom-btns">
+        <button class="pom-ghost" id="pom-prev" title="Previous task">&#8592;</button>
+        <button class="pom-main" id="pom-toggle">Start</button>
+        <button class="pom-ghost" id="pom-next" title="Next task">&#8594;</button>
+    </div>
+
+    <!-- Mini task list -->
+    <ul class="pom-list" id="pom-list"></ul>
+
+</div>
+<script src="pomodoro-renderer.js"></script>
+</body>
+</html>

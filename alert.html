@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>⚠ Aplicación Bloqueada</title>
+  <link rel="icon" type="image/png" href="logo-icono.png">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-app-region: drag;
+      user-select: none;
+    }
+
+    .alert-container {
+      width: 480px;
+      max-height: 90vh;
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: rgba(20, 20, 22, 0.95);
+      backdrop-filter: blur(60px) saturate(180%);
+      border: 1.5px solid rgba(255, 59, 48, 0.4);
+      box-shadow:
+        0 0 80px rgba(255, 59, 48, 0.25),
+        0 30px 60px -20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      padding: 0;
+      animation: alertPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+
+    @keyframes alertPop {
+      0% {
+        opacity: 0;
+        transform: scale(0.85) translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 0 12px rgba(255, 59, 48, 0);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      10%,
+      50%,
+      90% {
+        transform: translateX(-4px);
+      }
+
+      30%,
+      70% {
+        transform: translateX(4px);
+      }
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    /* Red gradient header */
+    .alert-header {
+      background: linear-gradient(135deg, #FF3B30 0%, #C0392B 50%, #8B0000 100%);
+      padding: 28px 28px 24px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .alert-header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .alert-header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg,
+          rgba(255, 255, 255, 0.03) 0px,
+          rgba(255, 255, 255, 0.03) 1px,
+          transparent 1px,
+          transparent 4px);
+      pointer-events: none;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    .alert-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .alert-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    .alert-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+    }
+
+    .alert-title-group {
+      flex: 1;
+    }
+
+    .alert-eyebrow {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 4px;
+    }
+
+    .alert-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+      line-height: 1.1;
+    }
+
+    /* Scrollable body */
+    .alert-body {
+      padding: 22px 28px 8px;
+      color: rgba(255, 255, 255, 0.9);
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Custom scrollbar */
+    .alert-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .alert-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .alert-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    .alert-body::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .blocked-app-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(255, 59, 48, 0.12);
+      border: 1px solid rgba(255, 59, 48, 0.25);
+      border-radius: 14px;
+      margin-bottom: 16px;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    .blocked-app-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #FF3B30;
+      box-shadow: 0 0 8px rgba(255, 59, 48, 0.6);
+      animation: pulse 1.5s infinite;
+      flex-shrink: 0;
+    }
+
+    .blocked-app-text {
+      font-size: 17px;
+      font-weight: 700;
+      color: #FF6B63;
+      letter-spacing: -0.01em;
+      text-transform: capitalize;
+    }
+
+    .alert-message {
+      font-size: 14px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 20px;
+    }
+
+    .alert-message strong {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+    }
+
+    .alert-time {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 8px;
+    }
+
+    .alert-time svg {
+      width: 14px;
+      height: 14px;
+      fill: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Fixed bottom button bar */
+    .alert-footer {
+      padding: 12px 28px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+      background: rgba(20, 20, 22, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .alert-btn {
+      width: 100%;
+      height: 46px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+      transition: all 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+
+    .alert-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: scale(1.01);
+    }
+
+    .alert-btn:active {
+      transform: scale(0.98);
+    }
+
+    .alert-btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="alert-container" id="alert-box">
+    <div class="alert-header">
+      <div class="alert-icon-row">
+        <div class="alert-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L1 21h22L12 2zm0 3.17L20.5 20H3.5L12 5.17zM11 16h2v2h-2zm0-6h2v5h-2z" />
+          </svg>
+        </div>
+        <div class="alert-title-group">
+          <div class="alert-eyebrow">⚠ Alerta de seguridad</div>
+          <div class="alert-title">Aplicación<br>No Permitida</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-body">
+      <div class="blocked-app-name" id="blocked-app-row">
+        <div class="blocked-app-dot"></div>
+        <span class="blocked-app-text" id="app-name">—</span>
+      </div>
+
+      <div class="alert-message">
+        Esta aplicación <strong>no está en tu lista de apps permitidas</strong> durante el horario de trabajo
+        (<strong>8:00 AM — 5:00 PM</strong>).<br>
+        Ciérrala para continuar enfocado en tus tareas.
+      </div>
+
+      <div class="alert-time">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+        </svg>
+        <span id="alert-time-text"></span>
+      </div>
+    </div>
+
+    <div class="alert-footer">
+      <button class="alert-btn" id="close-btn" onclick="closeAlert()">
+        Entendido — Cerrar esta alerta
+      </button>
+      <button class="alert-btn alert-btn-secondary" id="allow-btn" onclick="allowApp()">
+        Permitir esta app siempre en mis sesiones
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Update time
+    function updateTime() {
+      const now = new Date();
+      const h = now.getHours();
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      document.getElementById('alert-time-text').textContent = 
+        `Detectado a las ${h12}:${m} ${ampm} — Horario restringido activo`;
+    }
+    updateTime();
+
+    function setAppName(name) {
+      document.getElementById('app-name').textContent = name;
+      // Re-trigger shake animation
+      const row = document.getElementById('blocked-app-row');
+      if (row) {
+        row.style.animation = 'none';
+        row.offsetHeight; // reflow
+        row.style.animation = 'shake 0.5s ease-in-out';
+      }
+      updateTime();
+    }
+
+    function closeAlert() {
+      if (window.alertAPI) {
+        window.alertAPI.closeAlert();
+      }
+    }
+
+    function allowApp() {
+      const appName = document.getElementById('app-name').textContent;
+      if (window.alertAPI && appName && appName !== '—') {
+        window.alertAPI.allowApp(appName);
+      }
+    }
+
+    if (window.alertAPI) {
+      window.alertAPI.onShowBlockedApp((name) => setAppName(name));
+      window.alertAPI.onUpdateBlockedApp((name) => setAppName(name));
+    }
+  </script>
+</body>
+</html>
