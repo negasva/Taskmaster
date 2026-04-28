@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitio Bloqueado — Taskmaster</title>
+  <link rel="stylesheet" href="blocked.css">
+</head>
+<body>
+  <div class="container">
+    <div class="alert-box">
+      <div class="header">
+        <div class="icon">
+          <img src="icons/icon.png" alt="Taskmaster Icon">
+        </div>
+        <div class="title-group">
+          <div class="eyebrow">ENFOQUE ACTIVO</div>
+          <h1 id="title">Sitio no permitido</h1>
+        </div>
+      </div>
+      
+      <div class="body">
+        <div class="blocked-info">
+          <div class="dot"></div>
+          <span id="domain-text">dominio.com</span>
+          <span class="category-tag" id="category-text">Categoría</span>
+        </div>
+        
+        <p class="message" id="motivation-text">Este sitio está bloqueado para ayudarte a mantenerte enfocado en tus objetivos.</p>
+        
+        <div class="time-box">
+          <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
+          <span id="time-text">--:-- --</span>
+        </div>
+      </div>
+      
+      <div class="footer">
+        <button id="close-tab-btn" class="btn">Volver al trabajo</button>
+      </div>
+    </div>
+  </div>
+  <script src="blocked.js"></script>
+</body>
+</html>

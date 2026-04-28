@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskmaster</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Custom titlebar (Electron only, hidden in browser) -->
+<div id="titlebar" class="titlebar hidden">
+    <div class="titlebar-drag"></div>
+    <span class="titlebar-name">Taskmaster</span>
+    <div class="titlebar-controls">
+        <button id="tb-min" class="tb-btn" title="Minimize">&#8722;</button>
+        <button id="tb-max" class="tb-btn" title="Maximize">&#9633;</button>
+        <button id="tb-close" class="tb-btn tb-close-btn" title="Hide to tray">&#215;</button>
+    </div>
+</div>
+
+<!-- Mandatory task modal (blocks until 3 tasks) -->
+<div id="task-modal" class="overlay">
+    <div class="modal-card">
+        <div class="modal-eyebrow">Good morning</div>
+        <h2 class="modal-title">Plan your day</h2>
+        <p class="modal-sub">Add at least 3 tasks to begin your session.</p>
+
+        <div class="modal-input-row">
+            <input type="text" id="modal-input" placeholder="What needs to get done?" autocomplete="off">
+            <button id="modal-add-btn" class="btn-accent">Add</button>
+        </div>
+
+        <ul id="modal-task-list" class="modal-list"></ul>
+
+        <div class="modal-footer">
+            <div class="progress-track">
+                <div class="progress-fill" id="modal-progress" style="width:0%"></div>
+            </div>
+            <span class="progress-label" id="modal-counter">0 of 3 tasks</span>
+        </div>
+
+        <button id="modal-start-btn" class="btn-primary full-width" disabled>Start working</button>
+    </div>
+</div>
+
+<!-- Info tooltip (dinámico) -->
+<div id="info-tooltip" class="info-tooltip hidden">
+    <p id="tooltip-text"></p>
+</div>
+
+<!-- Modal de preguntas contextuales para subtasks -->
+<div id="questions-modal" class="overlay hidden">
+    <div class="modal-card modal-card-questions">
+        <div class="modal-header">
+            <h2>Help me understand your task better</h2>
+            <p class="modal-sub">Answer these 5 quick questions for better subtasks</p>
+        </div>
+
+        <div class="questions-list" id="questions-list"></div>
+
+        <div class="questions-actions">
+            <button id="gen-with-answers-btn" class="btn-primary">Generate subtasks</button>
+            <button id="cancel-questions-btn" class="btn-ghost">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- End-of-day report modal (5 PM) -->
+<div id="report-modal" class="overlay hidden">
+    <div class="modal-card modal-card-lg">
+        <div class="modal-eyebrow">5:00 PM</div>
+        <h2 class="modal-title">End of day</h2>
+        <p class="modal-sub">Complete your report to close the session.</p>
+
+        <div class="report-section">
+            <p class="report-label">Mark completed tasks</p>
+            <ul id="report-checklist" class="report-list"></ul>
+        </div>
+
+        <div class="report-section">
+            <p class="report-label">What did you accomplish today?</p>
+            <textarea id="report-notes" class="report-textarea" placeholder="Brief summary of the day..."></textarea>
+        </div>
+
+        <p id="report-error" class="error-text hidden">Mark at least one task and write a summary.</p>
+
+        <button id="report-save-btn" class="btn-primary full-width">Save report</button>
+
+        <div class="history-wrap">
+            <button id="history-toggle" class="link-btn">Show history (last 7 days)</button>
+            <div id="history-list" class="history-list hidden"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast notification -->
+<div id="notification" class="notif hidden">
+    <div class="notif-pip"></div>
+    <div class="notif-body">
+        <p class="notif-headline">Pomodoro complete</p>
+        <p class="notif-sub" id="notif-task-text"></p>
+    </div>
+    <button class="notif-x" onclick="hideNotification()">&#215;</button>
+</div>
+
+<!-- In-page pomodoro overlay (browser fallback + Electron uses real popup) -->
+<div id="pom-overlay" class="overlay hidden">
+    <div class="pom-card">
+        <div class="pom-top-bar">
+            <span class="pom-mode-label" id="ol-pom-mode">Focus</span>
+            <button class="pom-close-x" id="ol-pom-close">&#215;</button>
+        </div>
+        <p class="pom-working-label">Working on</p>
+        <p class="pom-task-name" id="ol-pom-task">-</p>
+        <div class="pom-dots" id="ol-pom-dots"></div>
+        <div class="pom-ring-wrap">
+            <svg class="pom-ring-svg" viewBox="0 0 200 200">
+                <circle class="ring-bg" cx="100" cy="100" r="88"/>
+                <circle class="ring-fg" id="ol-ring-fg" cx="100" cy="100" r="88"/>
+            </svg>
+            <div class="pom-time-display" id="ol-pom-time">30:00</div>
+        </div>
+        <div class="pom-controls">
+            <button class="pom-ghost-btn" id="ol-pom-prev">Back</button>
+            <button class="pom-main-btn" id="ol-pom-toggle">Start</button>
+            <button class="pom-ghost-btn" id="ol-pom-next">Next</button>
+        </div>
+        <ul class="pom-mini-list" id="ol-pom-list"></ul>
+    </div>
+</div>
+
+<!-- App layout -->
+<div id="layout">
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+        <div class="sidebar-date" id="sidebar-date"></div>
+
+        <div class="streak-widget">
+            <div class="streak-num" id="streak-count">0</div>
+            <div class="streak-label">day streak</div>
+        </div>
+
+        <div class="sidebar-block">
+            <p class="sidebar-block-title">Today</p>
+            <div class="focus-stat" id="focus-today">0 min focused</div>
+            <div class="pom-stat" id="pom-today">0 pomodoros</div>
+        </div>
+
+        <div class="sidebar-block">
+            <p class="sidebar-block-title shortcuts-toggle" id="shortcuts-toggle">
+                Shortcuts
+                <span class="shortcuts-toggle-icon" id="shortcuts-icon">+</span>
+            </p>
+            <div class="shortcut-rows hidden" id="shortcut-rows">
+                <div class="shortcut-row"><kbd>N</kbd><span>New task</span></div>
+                <div class="shortcut-row"><kbd>Space</kbd><span>Play / Pause</span></div>
+                <div class="shortcut-row"><kbd>Enter</kbd><span>Save edit</span></div>
+                <div class="shortcut-row"><kbd>Esc</kbd><span>Cancel</span></div>
+            </div>
+        </div>
+
+        <div class="sidebar-block">
+            <p class="sidebar-block-title">Priority</p>
+            <div class="legend-row"><span class="dot dot-high"></span><span>High</span></div>
+            <div class="legend-row"><span class="dot dot-med"></span><span>Medium</span></div>
+            <div class="legend-row"><span class="dot dot-low"></span><span>Low</span></div>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main id="main">
+
+        <div class="main-header">
+            <div class="main-header-left">
+                <h1 class="main-title">Tasks</h1>
+                <span class="task-count" id="task-count">0 remaining</span>
+            </div>
+            <div class="main-header-right">
+                <button id="add-task-btn" class="btn-accent" title="New task (N)">+ New task</button>
+            </div>
+        </div>
+
+        <!-- Inline add form -->
+        <div id="add-form" class="add-form hidden">
+            <input type="text" id="task-input" placeholder="Task name..." autocomplete="off">
+            <div class="prio-picker" id="priority-picker" data-val="medium">
+                <button class="prio-btn prio-low"  data-val="low">Low</button>
+                <button class="prio-btn prio-med active" data-val="medium">Med</button>
+                <button class="prio-btn prio-high" data-val="high">High</button>
+            </div>
+            <input type="text" id="notes-input" placeholder="Notes (optional)..." class="notes-input">
+            <div class="add-form-actions">
+                <button id="save-task-btn" class="btn-accent">Add task</button>
+                <button id="cancel-add-btn" class="btn-ghost">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Task list -->
+        <ul id="task-list" class="task-list"></ul>
+
+        <div id="empty-state" class="empty-state hidden">
+            <p>No tasks yet.</p>
+            <button class="link-btn" id="add-first-btn">Add your first task</button>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="bottom-bar">
+            <span class="bottom-summary" id="bottom-summary"></span>
+            <div class="bottom-actions">
+                <button id="view-report-btn" class="btn-ghost">View report</button>
+                <button id="start-pom-btn" class="btn-primary">Start Pomodoro</button>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

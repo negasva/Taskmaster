@@ -1,0 +1,46 @@
+{
+  "name": "taskmaster",
+  "version": "1.0.0",
+  "description": "App de productividad con Pomodoro",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "com.taskmaster.app",
+    "productName": "Taskmaster",
+    "win": {
+      "target": "nsis",
+      "icon": "logo-icono.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerLanguages": [
+        "es_ES"
+      ]
+    },
+    "files": [
+      "index.html",
+      "style.css",
+      "app.jsx",
+      "icons.jsx",
+      "tweaks-panel.jsx",
+      "app.js",
+      "main.js",
+      "preload.js",
+      "preload-pomodoro.js",
+      "pomodoro.html",
+      "pomodoro-style.css",
+      "pomodoro-renderer.js"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

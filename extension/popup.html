@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taskmaster Control</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <div class="logo">
+        <img src="icons/icon.png" alt="Logo">
+        <span>Taskmaster</span>
+      </div>
+      <div class="toggle-master">
+        <label class="switch">
+          <input type="checkbox" id="master-toggle">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="status-bar" id="status-bar">
+      <div class="status-dot"></div>
+      <span id="status-text">Buscando Taskmaster...</span>
+    </div>
+
+    <div class="scroll-area">
+      <div class="section">
+        <div class="section-header">
+          <h3>Horario de Enfoque</h3>
+        </div>
+        <div class="time-inputs">
+          <div class="time-field">
+            <span>Inicio</span>
+            <input type="number" id="start-hour" min="0" max="23" value="8">
+          </div>
+          <div class="time-field">
+            <span>Fin</span>
+            <input type="number" id="end-hour" min="0" max="23" value="17">
+          </div>
+        </div>
+        <div class="days-selector" id="days-selector">
+          <button data-day="1">L</button>
+          <button data-day="2">M</button>
+          <button data-day="3">X</button>
+          <button data-day="4">J</button>
+          <button data-day="5">V</button>
+          <button data-day="6">S</button>
+          <button data-day="0">D</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <h3>Categorías</h3>
+        </div>
+        <div id="categories-list">
+          <!-- Categories will be injected here -->
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <h3>Agregar Sitio</h3>
+        </div>
+        <div class="add-site">
+          <input type="text" id="new-site-domain" placeholder="ejemplo.com">
+          <select id="new-site-category">
+            <option value="redes_sociales">Redes Sociales</option>
+            <option value="compras">Compras</option>
+            <option value="entretenimiento">Entretenimiento</option>
+            <option value="noticias">Noticias</option>
+            <option value="juegos">Juegos</option>
+          </select>
+          <button id="add-site-btn">+</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <div class="stats">
+        Sitios bloqueados: <span id="block-count">40</span>
+      </div>
+      <button id="save-btn">Guardar Cambios</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
